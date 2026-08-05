@@ -20,6 +20,14 @@ import * as storage$0 from "../storage/models.js";
 import * as $models from "./models.js";
 
 /**
+ * AppendTextFile writes one chunk, emptying the file first when truncate is set. Each chunk opens and
+ * closes the file, so nothing leaks if the caller stops part-way.
+ */
+export function AppendTextFile(path: string, chunk: string, truncate: boolean): $CancellablePromise<void> {
+    return $Call.ByID(403815492, path, chunk, truncate);
+}
+
+/**
  * BeginTransaction pins a dedicated connection to the tab and opens a transaction.
  * Subsequent ExecuteQueryStream calls for tabID will run on that connection until
  * CommitTransaction or RollbackTransaction is called.
