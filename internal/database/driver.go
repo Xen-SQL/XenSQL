@@ -27,6 +27,12 @@ type Session interface {
 	ListSchemas(ctx context.Context) ([]SchemaInfo, error)
 	ListTables(ctx context.Context, schema string) ([]TableInfo, error)
 	ListColumns(ctx context.Context, schema, table string) ([]ColumnInfo, error)
+	ListIndexes(ctx context.Context, schema, table string) ([]IndexInfo, error)
+	ListConstraints(ctx context.Context, schema, table string) ([]ConstraintInfo, error)
+	ListTriggers(ctx context.Context, schema, table string) ([]TriggerInfo, error)
+	ListRoutines(ctx context.Context, schema string) ([]RoutineInfo, error)
+	// Verbatim where the engine stores the statement, composed from the catalog otherwise.
+	ObjectDDL(ctx context.Context, ref ObjectRef) (string, error)
 	QueryTable(ctx context.Context, req TableDataRequest) (*QueryResult, error)
 	QueryTableStream(ctx context.Context, req TableDataRequest, opts StreamOpts) (*QueryResult, error)
 	UpdateRow(ctx context.Context, upd RowUpdate) error

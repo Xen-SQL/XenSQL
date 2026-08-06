@@ -63,6 +63,65 @@ export interface SchemaInfo {
   name: string;
 }
 
+export type ObjectKind =
+  | 'table'
+  | 'view'
+  | 'materialized view'
+  | 'index'
+  | 'constraint'
+  | 'trigger'
+  | 'function'
+  | 'procedure';
+
+export interface IndexInfo {
+  name: string;
+  schema: string;
+  table: string;
+  columns: string[];
+  isPrimary: boolean;
+  isUnique: boolean;
+  method?: string;
+}
+
+export interface ConstraintInfo {
+  name: string;
+  schema: string;
+  table: string;
+  /** One of PRIMARY KEY, FOREIGN KEY, UNIQUE, CHECK. */
+  type: string;
+  columns: string[];
+  refTable?: string;
+  refColumns?: string[];
+  definition?: string;
+}
+
+export interface TriggerInfo {
+  name: string;
+  schema: string;
+  table: string;
+  timing?: string;
+  events?: string;
+}
+
+export interface RoutineInfo {
+  name: string;
+  schema: string;
+  kind: ObjectKind;
+  returnType?: string;
+  args?: string;
+}
+
+// `table` is set for index / constraint / trigger kinds only.
+export interface ObjectRef {
+  schema: string;
+  name: string;
+  kind: ObjectKind;
+  table?: string;
+  args?: string;
+}
+
+export type SchemaObjectGroup = 'indexes' | 'constraints' | 'triggers';
+
 export interface SchemaTables {
   schema: string;
   tables: TableInfo[];
